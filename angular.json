@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Project-Webdev"
+    }
+  },
+  "defaultProject": "Project-Webdev",
+  "cli": {
+    "analytics": false
+  }
 }
