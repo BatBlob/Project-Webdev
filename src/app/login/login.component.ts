@@ -41,4 +41,10 @@ export class LoginComponent implements OnInit {
     else
       document.getElementById("label").innerHTML = "Username already in use";
   }
+
+  if_logged_in() {
+    if (this.login_service.logged_in == 1)
+      return true;
+    return false;
+  }
 }

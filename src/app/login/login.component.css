@@ -1,0 +1,15 @@
+.container {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 400px;
+}
+
+mat-card-footer {
+    font-size: small;
+    padding: 5px;
+    color: red;
+}

@@ -1,7 +1,31 @@
-<form ngNativeValidate onsubmit="return false;">
-    <input #username required /><br>
-    <input #pass required /><br>
-    <button (click)="login()" type="submit">Login</button>
-    <button (click)="register()" type="submit">Register</button><br>
-    <label id="label"></label>
-</form>
+<div class="container">
+  <mat-card class="example-card">
+     <mat-card-header>
+       <mat-card-title>Login/Register</mat-card-title>
+     </mat-card-header>
+     
+     <mat-card-content>
+       <form class="example-form" onsubmit="return false;">
+         <table class="example-full-width" cellspacing="0">
+           <tr>
+             <td>
+               <mat-form-field class="example-full-width">
+               <input matInput placeholder="Username" name="username" required #username>
+               </mat-form-field>
+             </td>
+           </tr>
+           <tr>
+           <td><mat-form-field class="example-full-width">
+             <input matInput placeholder="Password" type="password" name="password" required #pass>
+           </mat-form-field></td>
+            </tr>
+        </table>
+       </form>
+     </mat-card-content>
+     <mat-card-actions>
+       <button mat-raised-button (click)="login()" color="primary">Login</button>
+       <button mat-raised-button (click)="register()" color="primary">Register</button>
+     </mat-card-actions>
+     <mat-card-footer class="example-full-width" id="label"></mat-card-footer>
+   </mat-card>
+  ​</div>
