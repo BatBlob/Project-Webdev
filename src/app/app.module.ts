@@ -25,6 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
 
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -63,6 +64,7 @@ const config: SocketIoConfig = { url: environment.api_baseroute, options: {} };
     FormsModule,
     MatTableModule,
     MatCardModule,
+    MatListModule,
     ReactiveFormsModule
   ],
   providers: [ChatService],

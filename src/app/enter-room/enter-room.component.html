@@ -1,1 +1,22 @@
-<p>enter room works!</p>
+<!-- <mat-list>
+    <mat-list-item> Pepper </mat-list-item>
+    <mat-list-item> Salt </mat-list-item>
+    <mat-list-item> Paprika </mat-list-item>
+   </mat-list> -->
+<div class="container">
+    <h2>Create new room</h2>
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Room Name" name="roomname" #username>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Create Room</button>
+</div>
+<hr>
+<div class="container">
+    <h2>Join existing room(s)</h2>
+    <mat-nav-list>
+        <div *ngFor="let link of links">
+            <a mat-list-item href="..." > {{ link }} </a>
+            <mat-divider></mat-divider>
+        </div>
+    </mat-nav-list>
+</div>

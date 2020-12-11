@@ -9,9 +9,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./enter-room.component.css']
 })
 export class EnterRoomComponent implements OnInit {
-
+  links;
   constructor(private login_service : ChatService, public router: Router) {}
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.links = ["asd", "qwe", "rty"];
+  }
 
 }
