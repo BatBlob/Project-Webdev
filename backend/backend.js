@@ -8,6 +8,8 @@ const io = socketio(server);
 
 const PORT = process.env.PORT || 3000
 
+active_rooms = ["sex"];
+rooms_joined = {};
 registered_users = [{username: 'a', pass:'b'}];
 login_valid = 0;
 
@@ -60,6 +62,35 @@ io.on("connection", (socket) => {
             console.log("REGISTER SUCCESSFUL");
             registered_users.push(user);
         }
+    })
+
+    // Create room
+    socket.on("create", (user) => {
+        user = JSON.parse(user);
+        if (active_rooms.indexOf(user.roomname) > -1) {
+            active_rooms.push(user.roomname);
+            io.to(socket.id).emit("create", "1");
+        }
+        else {
+            io.to(socket.id).emit("create", "0");
+        }
+    })
+
+    // Join room
+    socket.on("join", (user) => {
+        user = JSON.parse(user);
+        rooms_joined.user.username = user.room; 
+    })
+
+    // Send Message
+    socket.on("message", (user) => {
+        user = JSON.parse(user);
+        io.to(rooms_joined.user.username).emit("message", user.message);
+    })
+
+    // Requesting rooms list
+    socket.on("rooms list", () => {
+        io.to(socket.id).emit("rooms list", active_rooms.toString());
     })
 
 })

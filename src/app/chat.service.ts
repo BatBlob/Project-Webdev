@@ -10,6 +10,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ChatService {
   logged_in = 0;
+  rooms;
+  username;
   // socket;
   constructor(private socket: Socket, private router: Router) {
     this.getReply().subscribe((login: string) => {
@@ -18,15 +20,19 @@ export class ChatService {
         this.logged_in = 1;
         this.router.navigate(['chat']);
       }
-
     });
+    
+
+    
    }
   login(username_: string, pass_: string, router: Router)
   {
+    this.username = username_;
     this.socket.emit("login", JSON.stringify({username: username_, pass: pass_}));
   }
   register(username_: string, pass_: string, router: Router)
   {
+    this.username = username_;
     this.socket.emit("register", JSON.stringify({username: username_, pass: pass_}));
   }
   getReply() {
@@ -36,6 +42,19 @@ export class ChatService {
       });
     });
   }
+
+  getRooms() {
+    return Observable.create((observer) => {
+      this.socket.on("rooms list", (message) => {
+        observer.next(message);
+      });
+    });
+  }
+
+  askRooms() {
+    this.socket.emit("rooms list");
+  }
+  
   canActivate() {
     if (this.logged_in == 1)
       return true;

@@ -10,10 +10,21 @@ import { environment } from 'src/environments/environment';
 })
 export class EnterRoomComponent implements OnInit {
   links;
-  constructor(private login_service : ChatService, public router: Router) {}
+  constructor(private chat_service : ChatService, public router: Router) {
+    this.chat_service.getRooms().subscribe((rooms: string) => {
+      console.log(rooms);
+      if (rooms !== "") {
+        this.links = rooms.split(",");
+      }
+    });
+  }
   
   ngOnInit(): void {
-    this.links = ["asd", "qwe", "rty"];
+    this.chat_service.askRooms();
+  }
+
+  createRoom() {
+    
   }
 
 }
