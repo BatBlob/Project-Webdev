@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { EnterRoomComponent } from './enter-room/enter-room.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { LoginService } from './login.service';
+import { ChatService } from './chat.service';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './login/login.component';
 
@@ -65,7 +65,7 @@ const config: SocketIoConfig = { url: environment.api_baseroute, options: {} };
     MatCardModule,
     ReactiveFormsModule
   ],
-  providers: [LoginService],
+  providers: [ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

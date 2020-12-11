@@ -1,1 +1,10 @@
-<p>chatbox works!</p>
+<div class="chat-messages">
+    <div class="chat-messages-show-container" id="chat">
+      <ul class="chat-messages-show-list" id="message-list">
+      </ul>
+    </div>
+    <div class="chat-messages-create-container"> 
+        <input class="chat-messages-create-input" type="text" placeholder="Type Message here" id="enter" #message>
+        <button class="chat-messages-create-button" (click)="sendMessage()" id="send"> Send </button>
+    </div>
+</div>

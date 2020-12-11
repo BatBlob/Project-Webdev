@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../login.service';
+import { ChatService } from '../chat.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class EnterRoomComponent implements OnInit {
 
-  constructor(private login_service : LoginService, public router: Router) {}
+  constructor(private login_service : ChatService, public router: Router) {}
   
   ngOnInit(): void {}
 

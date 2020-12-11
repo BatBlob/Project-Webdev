@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class ChatService {
   logged_in = 0;
   // socket;
   constructor(private socket: Socket, private router: Router) {
