@@ -10,11 +10,21 @@ import { environment } from 'src/environments/environment';
 })
 export class EnterRoomComponent implements OnInit {
   links;
+
+  @ViewChild('room') room:ElementRef;
+
   constructor(private chat_service : ChatService, public router: Router) {
     this.chat_service.getRooms().subscribe((rooms: string) => {
       console.log(rooms);
       if (rooms !== "") {
         this.links = rooms.split(",");
+      }
+    });
+    this.chat_service.ifRoomCreated().subscribe((result: string) => {
+      console.log("room created", result);
+      if (result === "1") {
+        // this.result = 1;
+        // this.router.navigate(['chat']);
       }
     });
   }
@@ -24,7 +34,12 @@ export class EnterRoomComponent implements OnInit {
   }
 
   createRoom() {
-    
+    this.chat_service.createRoom(this.room.nativeElement.value);
+  }
+
+  joinRoom(room) {
+    console.log(room);
+    this.chat_service.joinRoom(room);
   }
 
 }

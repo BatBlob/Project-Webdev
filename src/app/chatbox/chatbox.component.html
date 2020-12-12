@@ -1,6 +1,11 @@
 <div class="chat-messages">
     <div class="chat-messages-show-container" id="chat">
       <ul class="chat-messages-show-list" id="message-list">
+          <li *ngFor="let message of messages">
+            <img src='assets/' width='50' height='60'>
+            <p class="message_username">{{ message.username }}</p>
+            <p class="message_content">{{ message.message }}</p>
+          </li>
       </ul>
     </div>
     <div class="chat-messages-create-container"> 

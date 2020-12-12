@@ -35,3 +35,24 @@
     margin: 10px;
     background-color: white;
 } */
+img {
+    float: left; 
+    margin-right: 10px;
+}
+
+.message_username {
+    font-size: Large;
+    font-weight: 500;
+    margin: 0px;
+}
+
+.message_content {
+    margin-bottom: 0px;
+}
+
+li {
+    padding: 15px 30px;
+    margin: 10px;
+    background-color: white;
+    word-wrap: break-word;
+}

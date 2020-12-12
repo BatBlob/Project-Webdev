@@ -6,16 +6,16 @@
 <div class="container">
     <h2>Create new room</h2>
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="Room Name" name="roomname" #username>
+        <input matInput placeholder="Room Name" name="roomname" #room>
     </mat-form-field>
-    <button mat-raised-button color="primary">Create Room</button>
+    <button mat-raised-button color="primary" (click)="createRoom()">Create Room</button>
 </div>
 <hr>
 <div class="container">
     <h2>Join existing room(s)</h2>
     <mat-nav-list>
         <div *ngFor="let link of links">
-            <a mat-list-item href="..." > {{ link }} </a>
+            <a mat-list-item (click)="joinRoom(link)"> {{ link }} </a>
             <mat-divider></mat-divider>
         </div>
     </mat-nav-list>

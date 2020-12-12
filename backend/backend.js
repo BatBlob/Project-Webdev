@@ -12,6 +12,7 @@ active_rooms = ["sex"];
 rooms_joined = {};
 registered_users = [{username: 'a', pass:'b'}];
 login_valid = 0;
+messages_list = {sex: []};
 
 app.get('/', (req, res) => res.send('hello!'));
 
@@ -67,9 +68,12 @@ io.on("connection", (socket) => {
     // Create room
     socket.on("create", (user) => {
         user = JSON.parse(user);
-        if (active_rooms.indexOf(user.roomname) > -1) {
+        console.log(user);
+        if (active_rooms.indexOf(user.roomname) === -1) {
             active_rooms.push(user.roomname);
             io.to(socket.id).emit("create", "1");
+            io.emit("rooms list", active_rooms.toString());
+            messages_list[user.roomname] = [];
         }
         else {
             io.to(socket.id).emit("create", "0");
@@ -78,14 +82,22 @@ io.on("connection", (socket) => {
 
     // Join room
     socket.on("join", (user) => {
+        console.log(messages_list);
         user = JSON.parse(user);
-        rooms_joined.user.username = user.room; 
+        rooms_joined[user.username] = user.roomname;
+        var m = [];
+        for (x in messages_list[user.roomname]) {
+            m.push(JSON.stringify(messages_list[user.roomname][x]));
+        }
+        io.to(socket.id).emit("join", m.toString());
     })
 
     // Send Message
     socket.on("message", (user) => {
+        // console.log(messages_list, user, rooms_joined);
         user = JSON.parse(user);
-        io.to(rooms_joined.user.username).emit("message", user.message);
+        io.to(rooms_joined[user.username]).emit("message", user.message);
+        messages_list[rooms_joined[user.username]].push(user);
     })
 
     // Requesting rooms list

@@ -43,6 +43,14 @@ export class ChatService {
     });
   }
 
+  ifRoomCreated() {
+    return Observable.create((observer) => {
+      this.socket.on("create", (message) => {
+        observer.next(message);
+      });
+    });
+  }
+
   getRooms() {
     return Observable.create((observer) => {
       this.socket.on("rooms list", (message) => {
@@ -53,6 +61,27 @@ export class ChatService {
 
   askRooms() {
     this.socket.emit("rooms list");
+  }
+
+  joinRoom(room: string) {
+    this.socket.emit("join", JSON.stringify({username: this.username, roomname: room}));
+    this.router.navigate(['/room']);
+  }
+
+  createRoom(room: string) {
+    this.socket.emit("create", JSON.stringify({roomname: room}));
+  }
+
+  getMessagesList() {
+    return Observable.create((observer) => {
+      this.socket.on("join", (message) => {
+        observer.next(message);
+      });
+    });
+  }
+
+  sendMessage(message_: string) {
+    this.socket.emit("message", JSON.stringify({username: this.username, message: message_}));
   }
   
   canActivate() {
