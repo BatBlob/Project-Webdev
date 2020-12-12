@@ -56,7 +56,7 @@ export class EnterRoomComponent implements OnInit {
   onSubmit(){
     const formData = new FormData();
     formData.append('file', this.images);
-
+    formData.append('username', this.chat_service.username);
     this.http.post<any>(environment.api_baseroute+"/upload", formData).subscribe(
       (res) => console.log(res),
       (err) => console.log(err)

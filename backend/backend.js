@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000
 
 active_rooms = ["sex"];
 rooms_joined = {};
-registered_users = [{username: 'a', pass:'b'}];
+registered_users = [{username: 'a', pass:'b', avatar:'default'}];
 login_valid = 0;
 messages_list = {sex: []};
 
@@ -27,7 +27,7 @@ app.get('/', (req, res) => res.send('hello!'));
 // });
 
 app.post('/upload', upload.single('file'), (req, res, next) => {
-    console.log("UPLOADED");
+    console.log(req.body["username"]);
     const file = req.file;
     console.log(file.filename);
     if (!file) {
