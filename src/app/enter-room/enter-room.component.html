@@ -10,14 +10,14 @@
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="createRoom()">Create Room</button>
     <h2>Add/Change Avatar</h2>
-    <form>
+    <!-- <form onsubmit="return false;"> -->
     <!-- <mat-form-field>
         <ngx-mat-file-input accept="image/*">
         </ngx-mat-file-input>
     </mat-form-field> -->
     <input type="file" name="image" (change)="selectImage($event)" />
-    <button type="submit" (click)="onSubmit()">Upload</button>
-    </form>
+    <button type="button" (click)="onSubmit()">Upload</button>
+    <!-- </form> -->
 </div>
 
 <hr>

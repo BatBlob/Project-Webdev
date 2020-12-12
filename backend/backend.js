@@ -7,6 +7,7 @@ const upload = multer({dest:"C:/Users/Sam/Downloads/Project_Webdev/Project-Webde
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const fs = require('fs');
 
 const PORT = process.env.PORT || 3000
 
@@ -27,8 +28,12 @@ app.get('/', (req, res) => res.send('hello!'));
 // });
 
 app.post('/upload', upload.single('file'), (req, res, next) => {
-    console.log(req.body["username"]);
+    console.log("upload try:", req.body["username"]);
     const file = req.file;
+    // Rename the file 
+    fs.rename("C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/"+file.filename, "C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/"+req.body["username"], () => { 
+        console.log("AVATAR UPDATED", req.body["username"]); 
+    }); 
     console.log(file.filename);
     if (!file) {
       const error = new Error('No File')
@@ -37,6 +42,11 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
     }
       res.send(file);
   })
+
+// app.post('/upload', (req, res) => {
+//     console.log("upload try:", req.body);
+//     // upload.single(req.file);
+// });
 
 io.on("connection", (socket) => {
     console.log("new connection " + socket.client.id);
@@ -83,6 +93,7 @@ io.on("connection", (socket) => {
         {
             io.to(socket.id).emit("login", "1");
             console.log("REGISTER SUCCESSFUL");
+            user.avatar = 'default';
             registered_users.push(user);
         }
     })
@@ -104,13 +115,14 @@ io.on("connection", (socket) => {
 
     // Join room
     socket.on("join", (user) => {
-        console.log(messages_list);
+        // console.log(messages_list);
         user = JSON.parse(user);
         rooms_joined[user.username] = user.roomname;
         var m = [];
         for (x in messages_list[user.roomname]) {
             m.push(JSON.stringify(messages_list[user.roomname][x]));
         }
+        socket.join(user.roomname);
         io.to(socket.id).emit("join", m.toString());
     })
 
@@ -118,7 +130,8 @@ io.on("connection", (socket) => {
     socket.on("message", (user) => {
         // console.log(messages_list, user, rooms_joined);
         user = JSON.parse(user);
-        io.to(rooms_joined[user.username]).emit("message", user.message);
+        console.log(rooms_joined[user.username], user);
+        socket.to(rooms_joined[user.username]).emit("message", JSON.stringify(user));
         messages_list[rooms_joined[user.username]].push(user);
     })
 

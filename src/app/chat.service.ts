@@ -83,6 +83,14 @@ export class ChatService {
   sendMessage(message_: string) {
     this.socket.emit("message", JSON.stringify({username: this.username, message: message_}));
   }
+
+  recieveMessage() {
+    return Observable.create((observer) => {
+      this.socket.on("message", (message) => {
+        observer.next(message);
+      });
+    });
+  }
   
   canActivate() {
     if (this.logged_in == 1)

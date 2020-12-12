@@ -33,6 +33,18 @@ export class EnterRoomComponent implements OnInit {
   
   ngOnInit(): void {
     this.chat_service.askRooms();
+    console.log(localStorage.getItem("links") !== null);
+    if (localStorage.getItem("links") !== null)
+    {
+      this.links = localStorage.getItem("links").split(",");
+      this.chat_service.logged_in = Number(localStorage.getItem("logged_in"));
+      this.chat_service.rooms = localStorage.getItem("rooms");
+      this.chat_service.username = localStorage.getItem("username");
+      localStorage.removeItem("links");
+      localStorage.removeItem("logged_in");
+      localStorage.removeItem("rooms");
+      localStorage.removeItem("username");
+    }
   }
 
   createRoom() {
@@ -54,12 +66,25 @@ export class EnterRoomComponent implements OnInit {
   }
 
   onSubmit(){
+    localStorage.links = this.links.toString();
+    localStorage.logged_in = this.chat_service.logged_in;
+    localStorage.rooms = this.chat_service.rooms;
+    localStorage.username = this.chat_service.username;
     const formData = new FormData();
     formData.append('file', this.images);
     formData.append('username', this.chat_service.username);
+    // formData.append('username', "DIE");
     this.http.post<any>(environment.api_baseroute+"/upload", formData).subscribe(
       (res) => console.log(res),
       (err) => console.log(err)
     );
+    // fetch(environment.api_baseroute+"/upload", {
+    //   method: 'POST',
+    //   body: formData
+    // })
+    // .then(response => response.json())
+    // .then(result => {
+    //   console.log('Success:', result);
+    // })
   }
 }
