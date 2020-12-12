@@ -40,7 +40,8 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
       error.httpStatusCode = 400
       return next(error)
     }
-      res.send(file);
+    //   res.send(file);
+      return false;
   })
 
 // app.post('/upload', (req, res) => {
@@ -94,6 +95,7 @@ io.on("connection", (socket) => {
             io.to(socket.id).emit("login", "1");
             console.log("REGISTER SUCCESSFUL");
             user.avatar = 'default';
+            fs.copyFile("C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/default", "C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/"+user.username, ()=>{});
             registered_users.push(user);
         }
     })
@@ -126,11 +128,18 @@ io.on("connection", (socket) => {
         io.to(socket.id).emit("join", m.toString());
     })
 
+    // Leave Room
+    socket.on("leave", (user) => {
+        user = JSON.parse(user);
+        socket.leave(rooms_joined[user.username]);
+        delete rooms_joined[user.username];
+    })
+
     // Send Message
     socket.on("message", (user) => {
         // console.log(messages_list, user, rooms_joined);
         user = JSON.parse(user);
-        console.log(rooms_joined[user.username], user);
+        console.log(rooms_joined,"\n", user);
         socket.to(rooms_joined[user.username]).emit("message", JSON.stringify(user));
         messages_list[rooms_joined[user.username]].push(user);
     })

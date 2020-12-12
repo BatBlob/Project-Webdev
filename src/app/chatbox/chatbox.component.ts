@@ -10,11 +10,14 @@ export class ChatboxComponent implements OnInit {
   messages;
   image;
   username;
+  recievemsg;
   @ViewChild('message') message:ElementRef;
   constructor(private chat_service: ChatService) {
-    this.chat_service.recieveMessage().subscribe((message: string) => {
+    this.recievemsg = this.chat_service.recieveMessage().subscribe((message) => {
       console.log("RECIEVED MSG");
-      this.messages.push(JSON.parse(message));
+      // this.messages.push(JSON.parse(message));
+      message = JSON.parse(message)
+      this.createMessage(message.username, message.message);
     });
    }
 
@@ -32,6 +35,10 @@ export class ChatboxComponent implements OnInit {
       setTimeout(()=>{document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;}, 50);
     });
 
+  }
+
+  ngOnDestroy() {
+    this.recievemsg.unsubscribe();
   }
   sendMessage() {
     if (this.message.nativeElement.value.replace(/^\s+|\s+$/g, '') != "") {
@@ -62,5 +69,9 @@ export class ChatboxComponent implements OnInit {
       messages[x] = JSON.parse(messages[x]);
     }
     return messages;    
+  }
+
+  leaveRoom() {
+    this.chat_service.leaveRoom();
   }
 }

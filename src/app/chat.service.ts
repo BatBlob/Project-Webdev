@@ -72,6 +72,11 @@ export class ChatService {
     this.socket.emit("create", JSON.stringify({roomname: room}));
   }
 
+  leaveRoom() {
+    this.socket.emit("leave", JSON.stringify({username: this.username}));
+    this.router.navigate(['/chat']);
+  }
+
   getMessagesList() {
     return Observable.create((observer) => {
       this.socket.on("join", (message) => {
