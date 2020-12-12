@@ -11,11 +11,13 @@ const fs = require('fs');
 
 const PORT = process.env.PORT || 3000
 
+live_ids = {};
 active_rooms = ["sex"];
 rooms_joined = {};
 registered_users = [{username: 'a', pass:'b', avatar:'default'}];
 login_valid = 0;
 messages_list = {sex: []};
+private_messages_list = {}
 
 app.get('/', (req, res) => res.send('hello!'));
 
@@ -54,6 +56,12 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("disconnect " + socket.client.id);
+        for (i in live_ids) {
+            if (live_ids[i] == socket.id) {
+                delete live_ids[i];
+                break;
+            }
+        }
     })
 
     // Login
@@ -66,6 +74,7 @@ io.on("connection", (socket) => {
             if (i.username === user.username && i.pass === user.pass) {
                 console.log("LOGIN SUCCESSFUL");
                 io.to(socket.id).emit("login", "1");
+                live_ids[user.username] = socket.id;
                 login_valid = 1;
                 break;
             }
@@ -142,6 +151,34 @@ io.on("connection", (socket) => {
         console.log(rooms_joined,"\n", user);
         socket.to(rooms_joined[user.username]).emit("message", JSON.stringify(user));
         messages_list[rooms_joined[user.username]].push(user);
+    })
+
+    // Validate user to send private message to
+    socket.on("private message start", (user) => {
+        user = JSON.parse(user);
+        var m = [];
+        for (x in private_messages_list[user.username]) {
+            m.push(JSON.stringify(private_messages_list[user.username][x]));
+        }
+        io.to(socket.id).emit("private message start", m.toString());
+    })
+
+    // Send Private Message
+    socket.on("private message", (user) => {
+        user = JSON.parse(user);
+        console.log(user);
+        if (live_ids[user.username2] !== undefined)
+        {
+            io.to(live_ids[user.username2]).emit("private message", JSON.stringify(user));
+        }
+        if (private_messages_list[user.username1] === undefined)
+            private_messages_list[user.username1] = [];
+
+        if (private_messages_list[user.username2] === undefined)
+            private_messages_list[user.username2] = [];
+
+        private_messages_list[user.username1].push(user);
+        private_messages_list[user.username2].push(user);
     })
 
     // Requesting rooms list

@@ -87,4 +87,8 @@ export class EnterRoomComponent implements OnInit {
     //   console.log('Success:', result);
     // })
   }
+
+  openPM() {
+    this.chat_service.openPM();
+  }
 }

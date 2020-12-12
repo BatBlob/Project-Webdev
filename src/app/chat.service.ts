@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ChatService {
   logged_in = 0;
+  pm = 0;
   rooms;
   username;
   // socket;
@@ -73,7 +74,10 @@ export class ChatService {
   }
 
   leaveRoom() {
-    this.socket.emit("leave", JSON.stringify({username: this.username}));
+    this.pm = 0;
+    if (this.pm === 0) {
+      this.socket.emit("leave", JSON.stringify({username: this.username}));
+    }
     this.router.navigate(['/chat']);
   }
 
@@ -96,7 +100,34 @@ export class ChatService {
       });
     });
   }
+
+  openPM() {
+    this.socket.emit("private message start", JSON.stringify({username: this.username}));
+    this.router.navigate(['/room']);
+    this.pm = 1;
+  }
   
+  getPMList() {
+    return Observable.create((observer) => {
+      this.socket.on("private message start", (message) => {
+        observer.next(message);
+      });
+    });
+  }
+
+  getPM() {
+    return Observable.create((observer) => {
+      this.socket.on("private message", (message) => {
+        observer.next(message);
+      });
+    });
+  }
+
+  sendPM(user2, message_) {
+    var obj = {username: this.username + " -> " + user2, username1: this.username, username2: user2, message: message_};
+    this.socket.emit("private message", JSON.stringify(obj));
+  }
+
   canActivate() {
     if (this.logged_in == 1)
       return true;
