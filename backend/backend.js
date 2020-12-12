@@ -12,22 +12,14 @@ const fs = require('fs');
 const PORT = process.env.PORT || 3000
 
 live_ids = {};
-active_rooms = ["sex"];
+active_rooms = ["Default Room"];
 rooms_joined = {};
 registered_users = [{username: 'a', pass:'b', avatar:'default'}];
 login_valid = 0;
-messages_list = {sex: []};
+messages_list = {"Default Room": []};
 private_messages_list = {}
 
 app.get('/', (req, res) => res.send('hello!'));
-
-// app.post('/upload', upload.single('photo'), (req, res) => {
-//     console.log("UPLOADED");
-//     if(req.file) {
-//         res.json(req.file);
-//     }
-//     else throw 'error';
-// });
 
 app.post('/upload', upload.single('file'), (req, res, next) => {
     console.log("upload try:", req.body["username"]);
@@ -42,14 +34,10 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
       error.httpStatusCode = 400
       return next(error)
     }
-    //   res.send(file);
-      return false;
+    return false;
   })
 
-// app.post('/upload', (req, res) => {
-//     console.log("upload try:", req.body);
-//     // upload.single(req.file);
-// });
+
 
 io.on("connection", (socket) => {
     console.log("new connection " + socket.client.id);
@@ -126,7 +114,6 @@ io.on("connection", (socket) => {
 
     // Join room
     socket.on("join", (user) => {
-        // console.log(messages_list);
         user = JSON.parse(user);
         rooms_joined[user.username] = user.roomname;
         var m = [];
@@ -146,7 +133,6 @@ io.on("connection", (socket) => {
 
     // Send Message
     socket.on("message", (user) => {
-        // console.log(messages_list, user, rooms_joined);
         user = JSON.parse(user);
         console.log(rooms_joined,"\n", user);
         socket.to(rooms_joined[user.username]).emit("message", JSON.stringify(user));

@@ -30,11 +30,6 @@
     flex-direction: column;
     overflow: auto;
 }
-/* .message {
-    padding: 15px 30px;
-    margin: 10px;
-    background-color: white;
-} */
 img {
     float: left; 
     margin-right: 10px;

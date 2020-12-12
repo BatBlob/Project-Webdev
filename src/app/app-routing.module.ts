@@ -7,8 +7,8 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'chat', component: EnterRoomComponent },//, canActivate: [ChatService]}
-  { path: 'room', component: ChatboxComponent }  
+  { path: 'chat', component: EnterRoomComponent, canActivate: [ChatService] },
+  { path: 'room', component: ChatboxComponent, canActivate: [ChatService] }  
 ];
 
 @NgModule({

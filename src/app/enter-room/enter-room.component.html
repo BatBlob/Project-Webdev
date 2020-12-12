@@ -10,7 +10,7 @@
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="createRoom()">Create Room</button>
     <h2>Add/Change Avatar</h2>
-        <input type="file" name="image" (change)="selectImage($event)" />
+        <input type="file" id="pfp" name="image" (change)="selectImage($event)" />
         <button type="button" (click)="onSubmit()">Upload</button>
     <br><br>
     <h2>Private Messages</h2>

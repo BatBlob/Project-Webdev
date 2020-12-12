@@ -20,7 +20,6 @@ export class ChatboxComponent implements OnInit {
     console.log("IN PM", this.inPM);
     this.recievemsg = this.chat_service.recieveMessage().subscribe((message) => {
       console.log("RECIEVED MSG");
-      // this.messages.push(JSON.parse(message));
       message = JSON.parse(message)
       if (this.chat_service.pm === 0)  
         this.createMessage(message.username, message.message);
@@ -28,7 +27,6 @@ export class ChatboxComponent implements OnInit {
 
     this.recievepm = this.chat_service.getPM().subscribe((message) => {
       console.log("RECIEVED PM");
-      // this.messages.push(JSON.parse(message));
       message = JSON.parse(message)
       if (this.chat_service.pm === 1)
         this.createMessage(message.username, message.message);
