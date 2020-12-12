@@ -29,6 +29,8 @@ import { MatListModule } from '@angular/material/list';
 
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { HttpClientModule } from '@angular/common/http';
   
 const config: SocketIoConfig = { url: environment.api_baseroute, options: {} };
 
@@ -65,7 +67,9 @@ const config: SocketIoConfig = { url: environment.api_baseroute, options: {} };
     MatTableModule,
     MatCardModule,
     MatListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMatFileInputModule,
+    HttpClientModule
   ],
   providers: [ChatService],
   bootstrap: [AppComponent]

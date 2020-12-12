@@ -1,6 +1,8 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const multer = require('multer');
+const upload = multer({dest:"C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets"});
 
 const app = express();
 const server = http.createServer(app);
@@ -15,6 +17,26 @@ login_valid = 0;
 messages_list = {sex: []};
 
 app.get('/', (req, res) => res.send('hello!'));
+
+// app.post('/upload', upload.single('photo'), (req, res) => {
+//     console.log("UPLOADED");
+//     if(req.file) {
+//         res.json(req.file);
+//     }
+//     else throw 'error';
+// });
+
+app.post('/upload', upload.single('file'), (req, res, next) => {
+    console.log("UPLOADED");
+    const file = req.file;
+    console.log(file.filename);
+    if (!file) {
+      const error = new Error('No File')
+      error.httpStatusCode = 400
+      return next(error)
+    }
+      res.send(file);
+  })
 
 io.on("connection", (socket) => {
     console.log("new connection " + socket.client.id);

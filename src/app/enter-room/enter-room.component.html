@@ -9,7 +9,17 @@
         <input matInput placeholder="Room Name" name="roomname" #room>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="createRoom()">Create Room</button>
+    <h2>Add/Change Avatar</h2>
+    <form>
+    <!-- <mat-form-field>
+        <ngx-mat-file-input accept="image/*">
+        </ngx-mat-file-input>
+    </mat-form-field> -->
+    <input type="file" name="image" (change)="selectImage($event)" />
+    <button type="submit" (click)="onSubmit()">Upload</button>
+    </form>
 </div>
+
 <hr>
 <div class="container">
     <h2>Join existing room(s)</h2>

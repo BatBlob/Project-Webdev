@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from '../chat.service';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-enter-room',
@@ -11,9 +12,10 @@ import { environment } from 'src/environments/environment';
 export class EnterRoomComponent implements OnInit {
   links;
 
+
   @ViewChild('room') room:ElementRef;
 
-  constructor(private chat_service : ChatService, public router: Router) {
+  constructor(private chat_service : ChatService, public router: Router, private http: HttpClient) {
     this.chat_service.getRooms().subscribe((rooms: string) => {
       console.log(rooms);
       if (rooms !== "") {
@@ -42,4 +44,22 @@ export class EnterRoomComponent implements OnInit {
     this.chat_service.joinRoom(room);
   }
 
+  images;
+
+  selectImage(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.images = file;
+    }
+  }
+
+  onSubmit(){
+    const formData = new FormData();
+    formData.append('file', this.images);
+
+    this.http.post<any>(environment.api_baseroute+"/upload", formData).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+    );
+  }
 }
