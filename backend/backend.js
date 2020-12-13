@@ -94,6 +94,7 @@ io.on("connection", (socket) => {
             user.avatar = 'default';
             fs.copyFile("C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/default", "C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/"+user.username, ()=>{});
             registered_users.push(user);
+            live_ids[user.username] = socket.id;
         }
     })
 
