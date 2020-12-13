@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000
 live_ids = {};
 active_rooms = ["Default Room"];
 rooms_joined = {};
-registered_users = [{username: 'a', pass:'b', avatar:'default'}];
+registered_users = [{username: 'a', pass:'b'}];
 login_valid = 0;
 messages_list = {"Default Room": []};
 private_messages_list = {}
@@ -91,7 +91,6 @@ io.on("connection", (socket) => {
         {
             io.to(socket.id).emit("login", "1");
             console.log("REGISTER SUCCESSFUL");
-            user.avatar = 'default';
             fs.copyFile("C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/default", "C:/Users/Sam/Downloads/Project_Webdev/Project-Webdev/src/assets/"+user.username, ()=>{});
             registered_users.push(user);
             live_ids[user.username] = socket.id;
