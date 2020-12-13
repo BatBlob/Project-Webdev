@@ -96,9 +96,9 @@ export class ChatboxComponent implements OnInit {
     for (const x in messages) {
       messages[x] = JSON.parse(messages[x]);
       if (this.inPM === 1)
-        messages[x]["img"] = messages[x].username1;
+        messages[x]["img"] = messages[x].username1+"?timestamp="+Date.now();
       else
-      messages[x]["img"] = messages[x].username;
+      messages[x]["img"] = messages[x].username+"?timestamp="+Date.now();
     }
     return messages;    
   }
