@@ -76,9 +76,9 @@ export class ChatboxComponent implements OnInit {
   createMessage(username: string, message: string) {
     const element = document.createElement('li');
     if (this.inPM === 1)
-      element.innerHTML = "<img src='assets/"+username.split(" -> ")[0]+"' width='50' height='60' style='float: left; margin-right: 10px;'><p style='font-size:Large; font-weight: 500; margin: 0px;';>"+username+"</p><p style='margin-bottom: 0px;'>"+message+"</p>";
+      element.innerHTML = "<img src='assets/"+username.split(" -> ")[0]+"?timestamp=" + Date.now() +"' width='50' height='60' style='float: left; margin-right: 10px;'><p style='font-size:Large; font-weight: 500; margin: 0px;';>"+username+"</p><p style='margin-bottom: 0px;'>"+message+"</p>";
     else
-      element.innerHTML = "<img src='assets/"+username+"' width='50' height='60' style='float: left; margin-right: 10px;'><p style='font-size:Large; font-weight: 500; margin: 0px;';>"+username+"</p><p style='margin-bottom: 0px;'>"+message+"</p>";
+      element.innerHTML = "<img src='assets/"+username+"?timestamp=" + Date.now() + "' width='50' height='60' style='float: left; margin-right: 10px;'><p style='font-size:Large; font-weight: 500; margin: 0px;';>"+username+"</p><p style='margin-bottom: 0px;'>"+message+"</p>";
     element.style.padding = "15px 30px";
     element.style.margin = "10px";
     element.style.background = "white";
